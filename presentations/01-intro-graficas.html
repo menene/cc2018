@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Introducción a Gráficas</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>Introducción a Gráficas</h1>
+        <p>Semestre 02, 2025</p>
+      </section>
+
+      <section>
+        <section>
+          <h2>Definición</h2>
+          <ul>
+            <li>Generar imágenes mediante computadoras.</li>
+          </ul>
+        </section>
+        <section>
+          <h2>Casos de uso</h2>
+          <ul>
+            <li>Videojuegos, simulaciones, cine (CGI), AR/VR.</li>
+            <li>Entretenimiento, medicina, ingeniería, ciencia.</li>
+          </ul>
+        </section>
+        <section>
+            <img src="gta.jpg" alt="">
+        </section>
+        <section>
+            <img src="gta2.jpg" alt="">
+        </section>
+        <section>
+            <img src="lara.jpg" alt="">
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Historia</h2>
+            <ul>
+                <li><strong>Años 50–60:</strong> Los primeros gráficos, osciloscopios y plotters.</li>
+                <li><strong>Años 70:</strong> Nace la rasterización, Algoritmo de Bresenham, Pong (1972).</li>
+            </ul>
+        </section>
+        <section>
+            <ul>
+                <li><strong>Años 80:</strong> Se desarrolla OpenGL (1982), Gráficos vectoriales y sombreados más complejos en cine y videojuegos.</li>
+                <li><strong>Años 90:</strong> Aparece DirectX (1995), GPUs. <em>Jurassic Park</em> muestran CGI avanzado.</li>
+                <li><strong>2000–2010:</strong> Shaders, GPU núcleo de gráficos 3D en tiempo real (NVIDIA, ATI).</li>
+            </ul>
+        </section>
+        <section>
+            <ul>
+                <li><strong>Presente:</strong> Ray tracing en tiempo real (NVIDIA RTX), Unreal Engine 5, Iluminación global dinámica, Realidad virtual y aumentada.</li>
+            </ul>
+        </section>
+        <section>
+          <h2>Conceptos clave</h2>
+          <ul>
+            <li>Pixel, resolución, modelos de color (RGB, CMYK).</li>
+            <li>Sistemas de coordenadas: mundo, cámara, pantalla.</li>
+          </ul>
+          <img src="Lakitu.jpg" alt="">
+        </section>
+        <section>
+          <h2>Tipos de gráficos</h2>
+          <ul>
+            <li>Raster: imágenes como matrices de píxeles (BMP, PNG).</li>
+            <li>Vectoriales: primitivas geométricas.</li>
+            <li>2D vs. 3D: planos vs. espacio tridimensional.</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+  <section>
+    <h2>Pipeline gráfico</h2>
+    <p>Proceso mediante el cual se transforma un mundo 3D en una imagen 2D lista para mostrar en pantalla.</p>
+  </section>
+
+  <section>
+    <h3>Modelado</h3>
+    <p>Definición de los objetos y su geometría en un espacio 3D. Puntos, líneas, polígonos.</p>
+  </section>
+
+  <section>
+    <h3>Transformación</h3>
+    <p>Aplicación de operaciones matemáticas para mover, rotar o escalar los objetos en el espacio 3D.</p>
+    <p>Usa matrices y álgebra lineal para transformar las coordenadas de los vértices.</p>
+  </section>
+
+  <section>
+    <h3>Iluminación</h3>
+    <p>Cálculo de cómo las fuentes de luz afectan las superficies de los objetos.</p>
+  </section>
+
+  <section>
+    <h3>Proyección</h3>
+    <p>Conversión de la escena 3D a un espacio 2D aplicando una cámara virtual.</p>
+  </section>
+
+  <section>
+    <h3>Rasterización</h3>
+    <p>Proceso de convertir las primitivas 2D (triángulos, líneas) en píxeles en el framebuffer.</p>
+    <p>Incluye el Z-buffer para determinar qué píxeles son visibles y ocultar superficies traseras.</p>
+  </section>
+</section>
+
+<section>
+  <section>
+    <h2>Píxel</h2>
+    <p>Un <strong>píxel</strong> es la unidad más pequeña de una imagen digital.</p>
+    <p>Es un punto en una cuadrícula 2D que representa un color.</p>
+  </section>
+
+  <section>
+    <p>Un píxel (picture element) almacena información de color y brillo.</p>
+    <p>En una pantalla, millones de píxeles forman las imágenes que vemos.</p>
+  </section>
+
+  <section>
+    <h3>Resolución</h3>
+    <p>La cantidad de píxeles en la pantalla define la <strong>resolución</strong>.</p>
+    <p>Ejemplo: 1920x1080 significa 1920 columnas y 1080 filas de píxeles.</p>
+    <p>A mayor resolución, mayor detalle.</p>
+  </section>
+
+  <section>
+    <h3>Profundidad de color</h3>
+    <p>Cada píxel puede representar una gama de colores dependiendo de su profundidad de bits.</p>
+    <ul>
+        <li>1 bit: Monocromo​</li>
+        <li>4 bits: Palettized (color map)​</li>
+        <li>8 bits: Palettized (color map)​</li>
+        <li>16 bits: High color​</li>
+        <li>24 bits: True color</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Modelo de color RGB</h3>
+    <p>Cada píxel está compuesto por tres valores de intensidad:</p>
+    <ul>
+      <li><strong>R</strong>: rojo</li>
+      <li><strong>G</strong>: verde</li>
+      <li><strong>B</strong>: azul</li>
+    </ul>
+    <p>La combinación de estos tres canales define el color final.</p>
+  </section>
+
+  <section>
+    <img src="pixels.png" alt="">
+  </section>
+</section>
+
+
+
+      <section>
+        <section>
+          <h2>El futuro</h2>
+          <ul>
+            <li>Realidad virtual y aumentada.</li>
+            <li>Inteligencia artificial en gráficos.</li>
+            <li>Metaverso y simulación de mundos completos.</li>
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>Recomendaciones</h2>
+          <p>Repasar álgebra lineal.</p>
+          <img src="right.jpg" alt="">
+        </section>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    Reveal.initialize({
+      hash: true,
+    });
+  </script>
+</body>
+</html>

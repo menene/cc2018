@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Framebuffers y Bitmaps</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/theme/dracula.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <section>
+        <h1>Framebuffers y Bitmaps</h1>
+        <p>Semestre 02, 2025</p>
+      </section>
+
+      <section>
+        <section>
+          <h2>Utilidad</h2>
+        </section>
+        <section>
+            <ul>
+                <li>Es la memoria intermedia entre el renderizado y la pantalla.</li>
+                <li>Permite construir la imagen completa antes de mostrarla.</li>
+                <li>Fundamental en el software rendering (CPU-only).</li>
+            </ul>
+        </section>
+      </section>
+
+      <section>
+  <section>
+    <h2>Definición</h2>
+  </section>
+
+  <section>
+    <p>Región de memoria reservada donde se almacena la imagen que está en proceso de construcción antes de enviarse a la pantalla.</p>
+  </section>
+
+  <section>
+    <h2>Importancia</h2>
+    <ul>
+      <li>Permite representar gráficamente escenas complejas sin necesidad de dibujar directamente en la pantalla.</li>
+      <li>Es la base para técnicas modernas como doble buffer y triple buffer.</li>
+      <li>Optimiza el rendimiento al desacoplar el renderizado de la actualización de la pantalla.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Funcionamiento</h2>
+    <p>El framebuffer actúa como un lienzo digital:</p>
+  </section>
+
+  <section>
+    <ul>
+      <li>Cada píxel es representado por uno o varios bytes (color depth).</li>
+      <li>La GPU o CPU escribe directamente los valores de los píxeles.</li>
+      <li>El contenido del framebuffer se envía a la pantalla durante la fase de refresco.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h3>Flujo de Datos</h3>
+    <ul>
+      <li>Datos generados por shaders y pipelines gráficos son almacenados en el framebuffer.</li>
+      <li>Multiplexores seleccionan las señales RGB adecuadas para cada píxel.</li>
+      <li>DAC transforman los datos para pantallas.</li>
+      <li>Imagen renderizada es mostrada en la pantalla.</li>
+    </ul>
+  </section>
+
+  <section>
+    <img src="fb1.png" alt="">
+  </section>
+
+  <section>
+    <ul>
+      <li>El framebuffer es una cuadrícula de memoria que guarda los valores de color para cada píxel.</li>
+      <li>Los valores son índices que apuntan a una tabla de colores.</li>
+      <li>La tabla contiene los valores RGB completos.</li>
+    </ul>
+  </section>
+
+  <section>
+    <img src="fb2.png" alt="">
+  </section>
+
+  <section>
+    <ul>
+      <li>El Color Map alimenta cada canal de color (R, G, B) con valores digitales.</li>
+      <li>Los valores pasan por conversores D/A (Digital a Analógico) para generar señales para la pantalla.</li>
+      <li>Cada canal tiene su propio D/A.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Aplicaciones</h2>
+    <ul>
+      <li>Doble buffering: evita parpadeos (tearing) al alternar entre dos framebuffers.</li>
+      <li>Post-procesado: efectos como bloom, blur o HDR se aplican sobre el framebuffer.</li>
+    </ul>
+  </section>
+
+  <section>
+    <ul>
+      <li>Captura de pantalla: se lee el contenido del framebuffer para guardar imágenes.</li>
+    </ul>
+  </section>
+</section>
+
+
+      <section>
+  <section>
+    <h2>Bitmap</h2>
+  </section>
+
+  <section>
+    <p>El formato más simple para representar imágenes digitales: una cuadrícula de píxeles almacenados en memoria.</p>
+  </section>
+
+  <section>
+    <h3>Definición</h3>
+    <ul>
+      <li>Una imagen rasterizada formada por una matriz de píxeles.</li>
+      <li>Cada píxel tiene un valor que representa su color.</li>
+      <li>Almacenada como datos binarios en la memoria o archivos.</li>
+    </ul>
+  </section>
+
+  <section>
+    <img src="bitmap.png" alt="">
+  </section>
+
+  <section>
+    <h3>Profundidad de color</h3>
+    <p>La cantidad de bits por píxel determina el número de colores posibles:</p>
+    <ul>
+      <li>1 bit: 2 colores (blanco y negro).</li>
+      <li>4/8 bits: paletas de colores (16 o 256 colores).</li>
+      <li>16 bits: High Color (~65 mil colores).</li>
+      <li>24 bits: True Color (16.7 millones de colores).</li>
+    </ul>
+    <p><em>Mayor profundidad de color → mayor tamaño de archivo.</em></p>
+  </section>
+
+  <section>
+    <h3>Formato BMP</h3>
+    <p>Bitmap (BMP) es un formato estándar para guardar imágenes rasterizadas:</p>
+    <ul>
+      <li>Desarrollado por Microsoft e IBM en 1986.</li>
+      <li>Amplio soporte en sistemas operativos y programas.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h4>Estructura del archivo:</h4>
+      <ul>
+        <li><strong>File Header:</strong> identifica el archivo como BMP.</li>
+        <li><strong>Info Header:</strong> contiene información de dimensiones, profundidad de color, compresión.</li>
+        <li><strong>Pixel Data:</strong> la matriz de colores de los píxeles.</li>
+      </ul>
+  </section>
+
+  <section>
+    <h3>Ventajas y desventajas</h3>
+    <ul>
+      <li>✅ <strong>Simplicidad:</strong> fácil de leer y escribir.</li>
+      <li>✅ <strong>Sin pérdida de calidad:</strong> no usa compresión.</li>
+      <li>✅ <strong>Ideal para pruebas y enseñanza.</strong></li>
+      <li>❌ <strong>Archivos grandes:</strong> cada píxel ocupa espacio completo.</li>
+      <li>❌ <strong>No soporta transparencias ni capas.</strong></li>
+    </ul>
+  </section>
+</section>
+
+
+    </div>
+  </div>
+
+  <script>
+    Reveal.initialize({
+      hash: true,
+      slideNumber: false,
+      progress: false
+    });
+  </script>
+</body>
+</html>
