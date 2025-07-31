@@ -160,3 +160,109 @@ Solo simula muros verticales.
 
 
 Dificultad para manejar luces y sombras realistas.
+
+
+
+## Stakes
+
+
+![fov0](../assets/img/wolfstein.png)
+Wolfstein 3D
+
+
+En raycasting no dibujamos 3D real. Simulamos profundidad con **estacas** verticales ("stakes").
+![fov0](../assets/img/stakes.png)
+
+
+Cada rayo lanza una intersección que se convierte en una estaca vertical en pantalla. Si usamos n rayos, dibujamos n estacas. Mientras más cerca esté la pared, más alta se dibuja la estaca.
+
+![fov0](../assets/img/stakes2.png)
+
+
+![fov0](../assets/img/stakes3.png)
+
+
+Para ello usamos una variable hh (half height del viewport) y calculamos:
+
+```rust[]
+let stake_height = hh / intersect.d;
+```
+Lo que ayuda con la perspectiva.
+
+
+![fov0](../assets/img/stakes4.png)
+
+
+Queremos que cada estaca quede **centrada verticalmente**. `hh` es la mitad de la pantalla:
+
+```rust[]
+let stake_top = hh - stake_height / 2.0;
+let stake_bottom = hh + stake_height / 2.0;
+```
+
+
+Dividimos la pantalla en dos mitades para que las estacas queden en el centro del viewport.
+
+
+
+## Texturas
+
+
+Para que una pared se vea más realista, en vez de usar colores planos, usamos **texturas**: una imagen que se asigna a cada pixel de una superficie.
+
+
+### Coordenada horizontal `tx`
+
+Se calcula según el punto exacto del impacto del rayo en la pared:
+
+```rust
+tx = fracción_del_impacto * ancho_textura;
+```
+
+
+### Coordenada vertical `ty`
+
+Depende del pixel actual de la estaca en pantalla:
+
+```rust
+ty = (y - stake_top) / (stake_bottom - stake_top) * alto_tex;
+```
+
+
+Una vez obtenidas `tx` y `ty`, se muestrea la textura y se pinta el pixel correspondiente en el framebuffer.
+
+
+![fov0](../assets/img/texture.png)
+
+
+
+## Sprites
+
+
+Los **sprites** son objetos 2D (enemigos, objetos) que deben siempre mirar hacia el jugador.
+
+
+![fov0](../assets/img/sprites.png)
+
+
+### Cómo dibujarlos:
+
+1. Calcular la posición relativa del sprite al jugador (x, y)
+
+
+2. Calcular el ángulo con `atan2` (arcotangente)
+
+
+3. Verificar si está dentro del FOV
+
+
+4. Calcular su distancia y tamaño relativo
+
+
+5. Dibujar solo si está delante de las paredes (usando z-buffer)
+
+
+Esto genera el efecto de que el objeto está integrado al entorno tridimensional.
+
+
+*"Un mundo 3D no necesita ser complicado para ser convincente"*
