@@ -174,7 +174,7 @@ En raycasting no dibujamos 3D real. Simulamos profundidad con **estacas** vertic
 ![fov0](../assets/img/stakes.png)
 
 
-Cada rayo lanza una intersección que se convierte en una estaca vertical en pantalla. Si usamos n rayos, dibujamos n estacas. Mientras más cerca esté la pared, más alta se dibuja la estaca.
+Se lanza un rayo por cada columna del framebuffer. Si usamos n rayos, dibujamos n estacas. Mientras más cerca esté la pared, más alta se dibuja la estaca.
 
 ![fov0](../assets/img/stakes2.png)
 
@@ -211,13 +211,53 @@ Dividimos la pantalla en dos mitades para que las estacas queden en el centro de
 Para que una pared se vea más realista, en vez de usar colores planos, usamos **texturas**: una imagen que se asigna a cada pixel de una superficie.
 
 
+```rust
+let hitx = x - i * block_size;
+```
+
+Calcula cuántos píxeles hacia la derecha dentro del bloque ocurrió el impacto:
+- x es la posición real del impacto en el mundo.
+- i * block_size es el borde izquierdo del bloque.
+
+Entonces hitx es la distancia desde ese borde.
+
+
+```rust
+let hity = y - j * block_size;
+```
+
+Hace lo mismo, pero en el eje vertical.
+
+hity es cuántos píxeles desde la parte de arriba del bloque se dio el impacto.
+
+
 ### Coordenada horizontal `tx`
 
 Se calcula según el punto exacto del impacto del rayo en la pared:
 
 ```rust
-tx = fracción_del_impacto * ancho_textura;
+let tx = (maxhit * 128) / block_size;
 ```
+
+
+Paso a paso:
+- maxhit: representa el punto exacto dentro del bloque donde el rayo chocó (puede ser hitx o hity).
+
+- block_size: tamaño del bloque en el mundo.
+
+- 128: ancho de la textura.
+
+
+Ejemplo:
+Si el impacto fue justo en el centro del bloque:
+
+- maxhit = 32
+
+- block_size = 64
+
+tx = (32 * 128) / 64 = 64
+
+Entonces, usamos la columna 64 de la imagen de la pared.
 
 
 ### Coordenada vertical `ty`
@@ -225,8 +265,16 @@ tx = fracción_del_impacto * ancho_textura;
 Depende del pixel actual de la estaca en pantalla:
 
 ```rust
-ty = (y - stake_top) / (stake_bottom - stake_top) * alto_tex;
+let ty = (y - stake_top) / (stake_bottom - stake_top) * texture_height;
 ```
+
+y: es el píxel actual en la pantalla donde se está dibujando el muro.
+
+stake_top: es donde empieza a dibujarse la pared.
+
+stake_bottom: donde se termina de dibujarse la pared.
+
+texture_height: alto de la textura (128).
 
 
 Una vez obtenidas `tx` y `ty`, se muestrea la textura y se pinta el pixel correspondiente en el framebuffer.
