@@ -203,3 +203,49 @@ Para calcular intersecciones necesitamos 2 factores:
 - **Materiales:** Definen cómo se comporta la luz (difusa, especular, translúcida).
 
 ![fov0](../assets/img/materials.png)
+
+
+
+## Z-buffer
+
+
+El Z-Buffer es una estructura de datos usada en renderizado 3D para determinar qué objetos o partes de objetos son visibles en la escena.
+
+
+Almacena información de profundidad (distancia desde la cámara) para cada píxel.
+
+
+Cuando dos objetos se superponen en la imagen, el que tiene menor valor de profundidad (más cercano) es el que se muestra.
+
+
+### Implementación
+
+
+1. Inicialización
+
+Antes de renderizar, el Z-Buffer se llena con un valor máximo de profundidad (infinito).
+
+
+2. Render
+
+- Calcular valor de profundidad (d a cámara).
+- Comprara valor almacenado del Z-buffer.
+- Más cerca se cambia el color y profundidad.
+- Más lejos se descarta.
+
+
+3. Resultado
+
+Solo se dibujan los pixeles visibles lo que da una ilusión óptica de profundidad.
+
+
+### Limitaciones
+
+
+Problemas de z-fighting cuando los objetos están muy cerca.
+
+
+Alto uso de memoria.
+
+
+Caro, ya que compara cada pixel.
