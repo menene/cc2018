@@ -244,3 +244,35 @@ z = r * cos(φ) * sin(θ)
 
 * `r`: radio, `θ`: yaw, `φ`: pitch.
 * Se suman al punto objetivo para obtener la posición de la cámara.
+
+
+
+## Cambio de base
+
+
+En gráficos por computadora trabajamos con dos sistemas de coordenadas:
+
+- **Coordenadas de mundo** → posiciones y direcciones absolutas en la escena.
+- **Coordenadas de cámara** → posiciones y direcciones relativas a la cámara.
+
+
+### Ejes de la cámara
+
+$$
+\text{Right} \rightarrow \text{apunta a la derecha de la cámara } (x_{\text{cam}})
+$$
+
+$$
+\text{Up} \rightarrow \text{apunta hacia arriba desde la cámara } (y_{\text{cam}})
+$$
+
+$$
+\text{Forward} \rightarrow \text{apunta en la dirección de visión } (z_{\text{cam}})
+$$
+
+
+Si tenemos un vector en coordenadas de cámara, podemos pasarlo a coordenadas de mundo como combinación lineal de los ejes de la cámara:
+
+$$
+\mathbf{v}_{\text{world}} = v_x \cdot \mathbf{right} + v_y \cdot \mathbf{up} + v_z \cdot \mathbf{forward}
+$$
